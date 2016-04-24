@@ -31,8 +31,8 @@ createFeed :: forall action.
               Channel (List action) ->
               List (Signal action) ->
               Signal (List action)
-createFeed destChannel signals = fromJust $ mergeMany $ reverse $
-  (subscribe destChannel) : map (map singleton) signals
+createFeed chan signals = fromJust $ mergeMany $ reverse $
+  (subscribe chan) : map (map singleton) signals
 
 -- | Launch the affect and pipe the resulting list of actions into the given
 -- | channel.
