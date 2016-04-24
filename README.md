@@ -12,6 +12,11 @@ Manifold uses a Signal of actions to trigger updates to the application state, a
 
 Coming soon!
 
+## Todo
+
+* Tests!
+* Middleware?
+
 [signal]: https://github.com/bodil/purescript-signal
 [aff]: https://github.com/slamdata/purescript-aff
 [elm]: http://elm-lang.org/guide/reactivity#signals

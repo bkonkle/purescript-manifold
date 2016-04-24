@@ -40,9 +40,9 @@ mapAffect :: forall action eff. (Action action) =>
              Channel (List action) ->
              AsyncAction action eff ->
              Eff (CoreEffects eff) Unit
-mapAffect destChannel affect = launchAff $ do
+mapAffect chan affect = launchAff $ do
   actions <- later affect
-  liftEff $ send destChannel actions
+  liftEff $ send chan actions
 
 -- | Initialize state management
 initState :: forall action state eff. (Action action) =>
