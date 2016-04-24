@@ -1,0 +1,37 @@
+{
+  "name": "purescript-manifold",
+  "version": "1.0.0",
+  "description": "Reactive state management for PureScript using Signal and Aff",
+  "scripts": {
+    "build": "pulp build --include lib:test",
+    "build:babel": "babel src -s -d lib",
+    "build:json": "pulp build --include lib:test --json-errors || true",
+    "postinstall": "bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bkonkle/purescript-manifold.git"
+  },
+  "author": "Brandon Konkle <brandon@konkle.us>",
+  "license": "MIT",
+  "keywords": [
+    "purescript",
+    "state",
+    "signal"
+  ],
+  "devDependencies": {
+    "babel-cli": "^6.2.0",
+    "babel-eslint": "^6.0.2",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-transform-class-properties": "^6.2.2",
+    "babel-plugin-transform-export-extensions": "^6.1.18",
+    "babel-plugin-transform-object-rest-spread": "^6.1.18",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-es2015-loose": "^6.1.2",
+    "babel-preset-react": "^6.1.18",
+    "babel-register": "^6.2.0",
+    "eslint": "^2.8.0",
+    "eslint-config-ecliptic": "^2.0.0",
+    "eslint-plugin-react": "^4.3.0"
+  }
+}

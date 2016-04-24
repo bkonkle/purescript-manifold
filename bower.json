@@ -1,0 +1,29 @@
+{
+  "name": "purescript-manifold",
+  "version": "1.0.0",
+  "description": "Reactive state management for PureScript using Signal and Aff",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-console": "^0.1.0",
+    "purescript-maybe": "^0.3.5",
+    "purescript-signal": "^5.2.0"
+  },
+  "devDependencies": {
+    "purescript-spec-quickcheck": "^0.3.0",
+    "purescript-spec": "^0.7.4"
+  },
+  "resolutions": {
+    "purescript-spec": "^0.7.4",
+    "purescript-transformers": "~0.8.2",
+    "purescript-aff": ">=0.13.0",
+    "purescript-strings": ">=0.7.0"
+  }
+}
