@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Reactive state management for PureScript using Signal and Aff",
   "scripts": {
-    "build": "pulp build --include lib:test",
+    "build": "pulp build --include lib:test || true",
     "build:babel": "babel src -s -d lib",
-    "build:json": "pulp build --include lib:test --json-errors || true",
+    "build:json": "pulp build --include lib:test --no-psa --json-errors || true",
     "postinstall": "bower install"
   },
   "repository": {
