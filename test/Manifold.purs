@@ -22,15 +22,13 @@ update :: Action -> State -> State
 update (SetName name) state = state { name = Just name }
 update _ state = state
 
-testManifold :: forall r. Spec (random :: RANDOM | r ) Unit
 testManifold = do
   describe "Manifold" do
     describe "createStore" do
       it "reacts to actions using the update function" do
         let storeEffect = createStore update initialState
             actions = singleton $ SetName "Manifold"
-            expected :: State
-            expected = { name: Just "Manifold" }
+            expected = { name: Just "Manifold" } :: State
         store <- storeEffect
         result <- store.state
         send store.channels.actions actions
