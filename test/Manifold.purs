@@ -1,12 +1,11 @@
 module Test.Manifold (testManifold) where
 
-import Prelude (($), Unit, bind)
+import Prelude (($), bind)
 
-import Control.Monad.Eff.Random (RANDOM)
 import Data.List (singleton)
 import Data.Maybe (Maybe(..))
 import Signal.Channel (send)
-import Test.Spec (Spec, describe, it)
+import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
 import Manifold (createStore)
