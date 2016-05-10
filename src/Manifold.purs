@@ -1,6 +1,12 @@
-module Manifold where
+module Manifold
+  ( AsyncAction
+  , CoreEffects
+  , Store
+  , mapAffect
+  , store
+  , createStore ) where
 
-import Prelude (class Show, Unit, ($), bind, map, pure)
+import Prelude (Unit, ($), bind, map, pure)
 
 import Control.Monad.Aff (Aff, launchAff, later)
 import Control.Monad.Eff (Eff)
@@ -11,14 +17,11 @@ import Data.List (List(Nil))
 import Signal (Signal, (~>), foldp, runSignal)
 import Signal.Channel (CHANNEL, Channel, channel, subscribe, send)
 
-class (Show action) <= Action action where
-  payload :: forall b. action -> b
-
-type AsyncAction a eff = (Action a) => Aff (channel :: CHANNEL | eff) (List a)
+type AsyncAction a eff = Aff (channel :: CHANNEL | eff) (List a)
 
 type CoreEffects eff = (channel :: CHANNEL, err :: EXCEPTION | eff)
 
-type Store action state eff = (Action action) =>
+type Store action state eff =
   { state :: (Signal state)
   , channels ::
     { actions :: Channel (List action)
@@ -26,15 +29,15 @@ type Store action state eff = (Action action) =>
 
 -- | Launch the affect and pipe the resulting list of actions into the given
 -- | channel.
-mapAffect :: forall action eff. (Action action) =>
+mapAffect :: forall action eff.
              Channel (List action) ->
              AsyncAction action eff ->
              Eff (CoreEffects eff) Unit
-mapAffect chan affect = launchAff $ do
+mapAffect chan affect = launchAff do
   actions <- later affect
   liftEff $ send chan actions
 
-store :: forall action state eff. (Action action) =>
+store :: forall action state eff.
          Signal state ->
          Channel (List action) ->
          Channel (List (AsyncAction action eff)) ->
@@ -46,7 +49,7 @@ store stateSignal actionChannel affectChannel =
     , affects: affectChannel } }
 
 -- | Initialize state management
-createStore :: forall action state eff. (Action action) =>
+createStore :: forall action state eff.
              (action -> state -> state) -> state ->
              Eff (CoreEffects eff) (Store action state eff)
 createStore update initialState = do
