@@ -30,5 +30,5 @@ testManifold = do
   describe "Manifold" do
     describe "createStore" do
       it "reacts to actions using the update function" do
-        store <- (liftEff' storeEffect)
+        store <- liftEff' storeEffect
         return unit
