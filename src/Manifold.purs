@@ -6,14 +6,13 @@ module Manifold
   , store
   , createStore ) where
 
-import Prelude (Unit, ($), bind, map, pure)
-
 import Control.Monad.Aff (Aff, launchAff, later)
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Class (liftEff)
 import Control.Monad.Eff.Exception (EXCEPTION)
 import Data.Foldable (foldl, sequence_)
 import Data.List (List(Nil))
+import Prelude (return, Unit, ($), bind, map, pure)
 import Signal (Signal, (~>), foldp, runSignal)
 import Signal.Channel (CHANNEL, Channel, channel, subscribe, send)
 
@@ -61,4 +60,4 @@ createStore update initialState = do
       stateSignal = foldp foldActions initialState $ subscribe actionChannel
       effectSignal = (subscribe affectChannel) ~> map (mapAffect actionChannel)
   runSignal $ effectSignal ~> sequence_
-  pure $ store stateSignal actionChannel affectChannel
+  return $ store stateSignal actionChannel affectChannel

@@ -1,14 +1,15 @@
-module Test.Manifold (testManifold) where
+module Test.Manifold where
 
-import Prelude (($), bind)
-
-import Data.List (singleton)
+import Control.Comonad.Store (Store)
+import Control.Monad.Aff (liftEff', later)
+import Data.List (List, singleton)
 import Data.Maybe (Maybe(..))
+import Manifold (CoreEffects, createStore)
+import Prelude (unit, ($), return, bind)
+import Signal (runSignal)
 import Signal.Channel (send)
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
-
-import Manifold (createStore)
 
 data Action = SetName String
 
@@ -21,15 +22,13 @@ update :: Action -> State -> State
 update (SetName name) state = state { name = Just name }
 update _ state = state
 
+storeEffect = createStore update initialState
+actions = singleton $ SetName "Manifold"
+expected = { name: Just "Manifold" } :: State
+
 testManifold = do
   describe "Manifold" do
     describe "createStore" do
       it "reacts to actions using the update function" do
-        let storeEffect = createStore update initialState
-            actions = singleton $ SetName "Manifold"
-            expected = { name: Just "Manifold" } :: State
-        store <- storeEffect
-        result <- store.state
-        send store.channels.actions actions
-        state <- result
-        state `shouldEqual` expected
+        store <- (liftEff' storeEffect)
+        return unit
