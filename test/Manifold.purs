@@ -1,7 +1,6 @@
 module Test.Manifold where
 
 import Control.Comonad.Store (Store)
-import Control.Monad.Aff (liftEff', later)
 import Data.List (List, singleton)
 import Data.Maybe (Maybe(..))
 import Manifold (CoreEffects, createStore)
@@ -22,13 +21,12 @@ update :: Action -> State -> State
 update (SetName name) state = state { name = Just name }
 update _ state = state
 
-storeEffect = createStore update initialState
-actions = singleton $ SetName "Manifold"
-expected = { name: Just "Manifold" } :: State
-
 testManifold = do
   describe "Manifold" do
     describe "createStore" do
       it "reacts to actions using the update function" do
-        store <- liftEff' storeEffect
+        let actions = singleton $ SetName "Manifold"
+            storeEffect = createStore update initialState
+            expected = { name: Just "Manifold" } :: State
+        store <- storeEffect
         return unit
