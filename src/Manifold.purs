@@ -1,63 +1,29 @@
-module Manifold
-  ( AsyncAction
-  , CoreEffects
-  , Store
-  , mapAffect
-  , store
-  , createStore ) where
+module Manifold where
 
-import Control.Monad.Aff (Aff, launchAff, later)
 import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Class (liftEff)
-import Control.Monad.Eff.Exception (EXCEPTION)
-import Data.Foldable (foldl, sequence_)
-import Data.List (List(Nil))
-import Prelude (return, Unit, ($), bind, map, pure)
-import Signal (Signal, (~>), foldp, runSignal)
-import Signal.Channel (CHANNEL, Channel, channel, subscribe, send)
+import Prelude (return, (<$>), Unit, ($), bind)
+import Signal (runSignal, Signal)
+import Signal.Channel (subscribe, channel, CHANNEL, Channel)
 
-type AsyncAction a eff = Aff (channel :: CHANNEL | eff) (List a)
+-- | A `Render` function takes a state, renders a Component, and sends future
+-- | actions to a Channel.
+type Render eff state = Channel state -> Eff eff Unit
 
-type CoreEffects eff = (channel :: CHANNEL, err :: EXCEPTION | eff)
+-- | A `Connect` function takes future state values and pipes them to a
+-- | `Render` function.
+type Connect eff state = Signal state ->
+                         Signal (Render (channel :: CHANNEL | eff) state)
 
-type Store action state eff =
-  { state :: (Signal state)
-  , channels ::
-    { actions :: Channel (List action)
-    , affects :: Channel (List (AsyncAction action eff)) } }
+type Store state = { state :: Signal state }
 
--- | Launch the affect and pipe the resulting list of actions into the given
--- | channel.
-mapAffect :: forall action eff.
-             Channel (List action) ->
-             AsyncAction action eff ->
-             Eff (CoreEffects eff) Unit
-mapAffect chan affect = launchAff do
-  actions <- later affect
-  liftEff $ send chan actions
+store :: forall state. Signal state -> Store state
+store stateSignal = { state: stateSignal }
 
-store :: forall action state eff.
-         Signal state ->
-         Channel (List action) ->
-         Channel (List (AsyncAction action eff)) ->
-         Store action state eff
-store stateSignal actionChannel affectChannel =
-  { state: stateSignal
-  , channels:
-    { actions: actionChannel
-    , affects: affectChannel } }
-
--- | Initialize state management
-createStore :: forall action state eff.
-             (action -> state -> state) -> state ->
-             Eff (CoreEffects eff) (Store action state eff)
-createStore update initialState = do
-  -- | Set up channels for actions and async effects
-  actionChannel <- channel Nil
-  affectChannel <- channel Nil
-  let foldState state action = update action state
-      foldActions actions state = foldl foldState state actions
-      stateSignal = foldp foldActions initialState $ subscribe actionChannel
-      effectSignal = (subscribe affectChannel) ~> map (mapAffect actionChannel)
-  runSignal $ effectSignal ~> sequence_
-  return $ store stateSignal actionChannel affectChannel
+createStore :: forall eff state. state ->
+            Connect eff state ->
+            Eff (channel :: CHANNEL | eff) (Store state)
+createStore state connect = do
+  stateChannel <- channel state
+  let stateSignal = subscribe stateChannel
+  runSignal ((_ $ stateChannel) <$> connect stateSignal)
+  return $ store stateSignal
