@@ -1,9 +1,10 @@
 module Manifold where
 
+import Prelude (Unit, ($), (<$>), bind, return)
+
 import Control.Monad.Eff (Eff)
-import Prelude (return, (<$>), Unit, ($), bind)
-import Signal (runSignal, Signal)
-import Signal.Channel (subscribe, channel, CHANNEL, Channel)
+import Signal (Signal, runSignal)
+import Signal.Channel (CHANNEL, Channel, subscribe, channel)
 
 -- | A `Render` function takes a state, renders a Component, and sends future
 -- | actions to a Channel.
