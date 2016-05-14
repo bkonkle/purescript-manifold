@@ -17,14 +17,11 @@ type Connect eff state = Signal state ->
 
 type Store state = { state :: Signal state }
 
-store :: forall state. Signal state -> Store state
-store stateSignal = { state: stateSignal }
-
-createStore :: forall eff state. state ->
+runStore :: forall eff state. state ->
             Connect eff state ->
             Eff (channel :: CHANNEL | eff) (Store state)
-createStore state connect = do
+runStore state connect = do
   stateChannel <- channel state
   let stateSignal = subscribe stateChannel
   runSignal ((_ $ stateChannel) <$> connect stateSignal)
-  return $ store stateSignal
+  return $ { state: stateSignal }
