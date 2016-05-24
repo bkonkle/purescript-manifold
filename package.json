@@ -6,7 +6,9 @@
     "build": "pulp build --include lib:test || true",
     "build:babel": "babel src -s -d lib",
     "build:json": "pulp build --include lib:test --no-psa --json-errors || true",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "test": "pulp test || true",
+    "test:watch": "pulp --watch --before clear test || true"
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,9 @@
     "babel-register": "^6.2.0",
     "eslint": "^2.8.0",
     "eslint-config-ecliptic": "^2.0.0",
-    "eslint-plugin-react": "^4.3.0"
+    "eslint-plugin-react": "^4.3.0",
+    "pulp": "^8.2.1",
+    "purescript": "^0.8.6-rc.1",
+    "purescript-psa": "^0.3.8"
   }
 }

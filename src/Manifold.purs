@@ -1,27 +1,29 @@
 module Manifold where
 
-import Prelude (Unit, ($), (<$>), bind, return)
+import Prelude
 
 import Control.Monad.Eff (Eff)
-import Signal (Signal, runSignal)
-import Signal.Channel (CHANNEL, Channel, subscribe, channel)
+import Control.Monad.Eff.Exception (EXCEPTION)
+import Data.Foldable (foldl)
+import Data.List (List(Nil))
+import Signal (Signal, foldp)
+import Signal.Channel (channel, subscribe, Channel, CHANNEL)
 
--- | A `Render` function takes a state, renders a Component, and sends future
--- | actions to a Channel.
-type Render eff state = Channel state -> Eff eff Unit
+type CoreEffects eff = (channel :: CHANNEL, err :: EXCEPTION | eff)
 
--- | A `Connect` function takes future state values and pipes them to a
--- | `Render` function.
-type Connect eff state = Signal state ->
-                         Signal (Render (channel :: CHANNEL | eff) state)
+type Store action state =
+  { stateSignal :: Signal state
+  , actionChannel :: Channel (List action) }
 
-type Store state = { state :: Signal state }
-
-runStore :: forall eff state. state ->
-            Connect eff state ->
-            Eff (channel :: CHANNEL | eff) (Store state)
-runStore state connect = do
-  stateChannel <- channel state
-  let stateSignal = subscribe stateChannel
-  runSignal ((_ $ stateChannel) <$> connect stateSignal)
-  return $ { state: stateSignal }
+createStore :: forall action state eff.
+               (action -> state -> state) ->
+               state ->
+               Eff (CoreEffects eff) (Store action state)
+createStore update initialState = do
+  actionChannel <- channel Nil
+  let foldState = flip update :: (state -> action -> state)
+      foldActions :: (List action) -> state -> state
+      foldActions actions state = foldl foldState state actions
+      stateSignal :: Signal state
+      stateSignal = foldp foldActions initialState $ subscribe actionChannel
+  return $ { stateSignal, actionChannel }
