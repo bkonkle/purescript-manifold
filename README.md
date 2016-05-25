@@ -74,6 +74,10 @@ A real application is never this simple. *Coming a little less soon:* I'll docum
 ## Todo
 
 * Side Effects via Aff
+* Manifold.Render helpers to "connect" Manifold to view layers
+* Composition examples
+* FRP helpers and examples
+* More comprehensive documentation and examples
 * Middleware?
 
 [signal]: https://github.com/bodil/purescript-signal
