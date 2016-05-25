@@ -83,3 +83,4 @@ A real application is never this simple. *Coming a little less soon:* I'll docum
 [rx-state]: https://github.com/jasonzoladz/purescript-rx-state
 [redux]: http://redux.js.org/
 [halogen]: https://github.com/slamdata/purescript-halogen
+[react]: https://facebook.github.io/react/
