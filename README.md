@@ -59,6 +59,10 @@ store.stateSignal ~> Console.log
 
 *Coming soon:* To handle side effects, Manifold provides a Channel for `Aff` asynchronous effects that yield lists of actions. Upon completion of the effect, the yielded actions are sent to the `actionChannel` to update the state.
 
+### Rendering
+
+*Also coming soon:* `Manifold.Render` will provide helpers to use Manifold with "view layers" like [React][react], [Halogen][halogen], etc. JSX will be supported, along with other ways of expressing virtual DOM trees.
+
 ### Composition
 
 A real application is never this simple. *Coming a little less soon:* I'll document how to compose many Action/State/Update groups together into a larger application!
@@ -78,3 +82,4 @@ A real application is never this simple. *Coming a little less soon:* I'll docum
 [elm]: http://package.elm-lang.org/packages/elm-lang/core/2.1.0/Signal
 [rx-state]: https://github.com/jasonzoladz/purescript-rx-state
 [redux]: http://redux.js.org/
+[halogen]: https://github.com/slamdata/purescript-halogen
