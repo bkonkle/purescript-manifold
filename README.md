@@ -1,6 +1,6 @@
 # Manifold
 
-An FRP-like state management library built on [Signal][signal] and Aff[aff]. Inspired by [Elm][elm], [Signal.Loop][signal-loop], [RxState][rx-state], and [Redux][redux].
+An FRP-like state management library built on [Signal][signal] and [Aff][aff]. Inspired by [Elm][elm], [Signal.Loop][signal-loop], [RxState][rx-state], and [Redux][redux].
 
 Manifold uses a Channel of actions to trigger updates to the application state, and provides a Signal of state that your application can react to. Side effects are handled through async effects that yield lists of actions, which are then piped into the action channel.
 
