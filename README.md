@@ -1,6 +1,6 @@
 # Manifold
 
-An FRP-like state management library built on [Signal][signal] and [Aff][aff]. Inspired by [Elm][elm], [Signal.Loop][signal-loop], [RxState][rx-state], and [Redux][redux].
+An FRP-like state management library built on [Signal][signal] and [Aff][aff]. Inspired by [Elm][elm], [Pux][pux], [RxState][rx-state], and [Redux][redux].
 
 Manifold uses a Channel of actions to trigger updates to the application state, and provides a Signal of state that your application can react to. Side effects are handled through async effects that yield lists of actions, which are then piped into the action channel.
 
@@ -78,7 +78,7 @@ A real application is never this simple. *Coming a little less soon:* I'll docum
 
 [signal]: https://github.com/bodil/purescript-signal
 [aff]: https://github.com/slamdata/purescript-aff
-[signal-loop]: https://github.com/paf31/purescript-signal-loop
+[pux]: https://github.com/alexmingoia/purescript-pux
 [elm]: http://package.elm-lang.org/packages/elm-lang/core/2.1.0/Signal
 [rx-state]: https://github.com/jasonzoladz/purescript-rx-state
 [redux]: http://redux.js.org/
