@@ -31,11 +31,15 @@ type Update action state = (action -> state -> state)
 
 -- | Creates a store and starts listening for actions. Takes the top-level
 -- | Update function and an initial State value.
-runStore :: forall action state eff. Update action state -> state ->
+runStore :: forall action state eff.
+            Update action state ->
+            state ->
             Eff (CoreEffects eff) (Store action state)
 runStore update initialState = do
-  -- Establish a channel that accepts a list of actions
+  -- A channel for Actions to be handled by the top-level Update function
   actionChannel <- channel Nil
+  -- A channel for Aff effects that yield Actions
+  affectChannel <- channel Nil
   let -- Flip the arguments of the update function for use with foldActions
       foldState :: (state -> action -> state)
       foldState = flip update

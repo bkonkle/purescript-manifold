@@ -13,7 +13,7 @@ import Signal.Channel (CHANNEL, send)
 import Test.Unit (TestSuite, test, suite)
 import Test.Unit.Assert (equal)
 
-import Manifold (runStore)
+import Manifold (Update, runStore)
 
 data Action = SetName String | ToggleActive
 
@@ -29,12 +29,14 @@ instance showState :: Show State where
 instance eqState :: Eq State where
   eq = gEq
 
+update :: Update Action State
+update (SetName name) (State state) = State $ state { name = Just name }
+update ToggleActive (State state) = State $ state { active = not state.active }
+
 testManifold :: forall eff. TestSuite ( channel :: CHANNEL, err :: EXCEPTION | eff )
 testManifold = suite "Manifold" do
   suite "runStore" do
     let initialState = State { name: Nothing, active: false }
-        update (SetName name) (State state) = State (state { name = Just name })
-        update ToggleActive (State state) = State (state { active = not state.active })
 
     test "start a store with an initial state" $ liftEff do
       let expected = State { name: Nothing, active: false }
