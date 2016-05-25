@@ -32,7 +32,7 @@ This defines a constructor - State - that takes a record with fields for a name,
 
 ### Updates
 
-Next, you'll want to write an Update function to handle your Actions. Use pattern matching to match Actions and pull out the arguments passed to the constructor.
+Next, you'll want to write an Update function to handle your Actions. You can think of this like a "Reducer" from the world of [Redux][redux]. Use pattern matching to match Actions and pull out the arguments passed to the constructor.
 
 ```purescript
 update :: Update Action State
