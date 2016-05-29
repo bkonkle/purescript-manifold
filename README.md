@@ -57,7 +57,7 @@ store.stateSignal ~> Console.log
 
 ### Side Effects
 
-*Coming soon:* To handle side effects, Manifold provides a Channel for `Aff` asynchronous effects that yield lists of actions. Upon completion of the effect, the yielded actions are sent to the `actionChannel` to update the state.
+To handle side effects, Manifold provides `effectChannel` - a Channel for `Aff` asynchronous effects that yield lists of actions. Upon completion of the effect, the yielded actions are sent to the `actionChannel` to update the state.
 
 ### Rendering
 
@@ -73,7 +73,6 @@ A real application is never this simple. *Coming a little less soon:* I'll docum
 
 ## Todo
 
-* Side Effects via Aff
 * Manifold.Render helpers to "connect" Manifold to view layers
 * Composition examples
 * FRP helpers and examples
