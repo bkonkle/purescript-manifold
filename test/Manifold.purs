@@ -17,9 +17,7 @@ import Manifold (Update, runStore)
 
 data Action = SetName String | ToggleActive
 
-newtype State = State
-  { name :: Maybe String
-  , active :: Boolean }
+newtype State = State { name :: Maybe String, active :: Boolean }
 
 derive instance genericState :: Generic State
 
