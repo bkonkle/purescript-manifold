@@ -11,9 +11,9 @@ import Data.Generic (class Generic, gEq, gShow)
 import Data.Maybe (Maybe(Just, Nothing))
 import Signal.Channel (CHANNEL, send)
 import Test.Unit (TIMER, TestSuite, test, suite)
-import Test.Utils (expect)
 
 import Manifold (Update, runStore)
+import Test.Utils (expect)
 
 data Action = SetName String | ToggleActive
 

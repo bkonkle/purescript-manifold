@@ -15,13 +15,13 @@
     "purescript-console": "^1.0.0",
     "purescript-maybe": "^1.0.0",
     "purescript-signal": "^5.2.0",
-    "purescript-generics": "^1.0.0"
+    "purescript-generics": "^1.0.0",
+    "purescript-aff": "^0.17.0",
+    "purescript-eff": "^1.0.0",
+    "purescript-foldable-traversable": "^1.0.0"
   },
   "devDependencies": {
     "purescript-debug": "^1.0.0",
     "purescript-test-unit": "^6.0.1"
-  },
-  "resolutions": {
-    "purescript-strings": ">=0.7.0"
   }
 }
