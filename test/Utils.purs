@@ -6,7 +6,7 @@ import Control.Monad.Aff (makeAff)
 import Control.Monad.Aff.AVar (AVAR)
 import Control.Monad.Eff.Exception (error)
 import Control.Monad.Eff.Ref (REF, writeRef, readRef, newRef)
-import Data.List (List(..), toList, fromList)
+import Data.List (List(..), fromFoldable, toUnfoldable)
 import Signal (Signal, (~>), runSignal)
 import Test.Unit (TIMER, Test, timeout)
 
@@ -17,13 +17,13 @@ expectFn sig vals = makeAff \fail win -> do
   remaining <- newRef vals
   let getNext val = do
         nextValArray <- readRef remaining
-        let nextVals = toList nextValArray
+        let nextVals = fromFoldable nextValArray
         case nextVals of
           Cons x xs -> do
-            if x /= val then fail $ error $ "expected " ++ show x ++ " but got " ++ show val
+            if x /= val then fail $ error $ "expected " <> show x <> " but got " <> show val
               else case xs of
                 Nil -> win unit
-                _ -> writeRef remaining (fromList xs)
+                _ -> writeRef remaining (toUnfoldable xs)
           Nil -> fail $ error "unexpected emptiness"
   runSignal $ sig ~> getNext
 

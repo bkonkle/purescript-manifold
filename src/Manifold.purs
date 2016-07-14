@@ -1,13 +1,12 @@
 module Manifold (Store, StoreEffects, Update, runStore) where
 
 import Prelude
-
-import Control.Monad.Aff (Aff, later, launchAff)
+import Control.Monad.Aff (Aff, later, runAff)
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Class (liftEff)
-import Control.Monad.Eff.Exception (EXCEPTION)
+import Control.Monad.Eff.Exception (EXCEPTION, throwException)
 import Data.Foldable (foldl)
-import Signal (runSignal, Signal, (~>), foldp)
+import Signal (Signal, (~>), foldp, runSignal)
 import Signal.Channel (Channel, CHANNEL, send, channel, subscribe)
 
 -- | The store consists of a Signal of State over time, a Channel for
@@ -61,16 +60,15 @@ runStore update initialState = do
       effectSignal = subscribe effectChannel
 
       -- Run effects and send the resulting actions to the actionChannel
-      runEffect :: Channel (Array action) ->
-                   Aff (StoreEffects eff) (Array action) ->
+      runEffect :: Aff (StoreEffects eff) (Array action) ->
                    Eff (StoreEffects eff) Unit
-      runEffect chan effect = launchAff do
+      runEffect effect = void $ runAff throwException (const (pure unit)) do
         actions <- later effect
-        liftEff $ send chan actions
+        liftEff $ send actionChannel actions
 
   -- Pipe the effectSignal to runEffect
-  runSignal $ effectSignal ~> runEffect actionChannel
+  runSignal $ effectSignal ~> runEffect
 
   -- Yield the state signal, a channel to receive actions, and a channel to
   -- receive effects
-  return $ { stateSignal, actionChannel, effectChannel }
+  pure $ { stateSignal, actionChannel, effectChannel }
