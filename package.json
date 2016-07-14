@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Reactive state management for PureScript using Signal and Aff",
   "scripts": {
-    "build": "pulp build --include lib:test || true",
+    "build": "pulp build",
     "build:babel": "babel src -s -d lib",
-    "build:json": "pulp build --include lib:test --no-psa --json-errors || true",
+    "build:json": "pulp build --include test --no-psa --json-errors",
     "postinstall": "bower install",
-    "test": "pulp test || true",
-    "test:watch": "pulp --watch --before clear test || true"
+    "test": "standard src && pulp test tap | tap-spec --color",
+    "dev": "pscid --test --port 1701"
   },
   "repository": {
     "type": "git",
@@ -18,12 +18,12 @@
   "license": "MIT",
   "keywords": [
     "purescript",
+    "reactive",
     "state",
     "signal"
   ],
   "devDependencies": {
     "babel-cli": "^6.2.0",
-    "babel-eslint": "^6.0.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-class-properties": "^6.2.2",
     "babel-plugin-transform-export-extensions": "^6.1.18",
@@ -32,11 +32,12 @@
     "babel-preset-es2015-loose": "^7.0.0",
     "babel-preset-react": "^6.1.18",
     "babel-register": "^6.2.0",
-    "eslint": "^2.11.1",
-    "eslint-config-ecliptic": "^2.0.0",
-    "eslint-plugin-react": "^5.1.1",
+    "bower": "^1.7.9",
+    "pscid": "^1.10.0",
     "pulp": "^9.0.1",
     "purescript": "^0.9.1",
-    "purescript-psa": "^0.3.9"
+    "purescript-psa": "^0.3.9",
+    "standard": "^7.1.2",
+    "tap-spec": "^4.1.1"
   }
 }
