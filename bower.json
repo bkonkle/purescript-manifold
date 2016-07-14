@@ -12,7 +12,11 @@
     "output"
   ],
   "dependencies": {
-    "purescript-aff": "^1.0.0"
+    "purescript-aff": "^1.0.0",
+    "purescript-console": "^1.0.0",
+    "purescript-maybe": "^1.0.0",
+    "purescript-signal": "^6.0.0",
+    "purescript-foldable-traversable": "^1.0.0"
   },
   "devDependencies": {
     "purescript-debug": "^1.0.0",
