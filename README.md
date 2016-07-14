@@ -61,7 +61,7 @@ To handle side effects, Manifold provides `effectChannel` - a Channel for `Aff` 
 
 ### Rendering
 
-*Also coming soon:* `Manifold.Render` will provide helpers to use Manifold with "view layers" like [React][react], [Halogen][halogen], etc. JSX will be supported, along with other ways of expressing virtual DOM trees.
+*Coming soon:* `Manifold.Render` will provide helpers to use Manifold with "view layers" like [React][react], [Halogen][halogen], etc. JSX will be supported, along with other ways of expressing virtual DOM trees.
 
 ### Composition
 
@@ -77,7 +77,7 @@ A real application is never this simple. *Coming a little less soon:* I'll docum
 * Composition examples
 * FRP helpers and examples
 * More comprehensive documentation and examples
-* Middleware?
+* Middleware
 
 [signal]: https://github.com/bodil/purescript-signal
 [aff]: https://github.com/slamdata/purescript-aff
