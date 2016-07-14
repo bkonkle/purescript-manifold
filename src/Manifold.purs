@@ -3,7 +3,6 @@ module Manifold (Store, StoreEffects, Update, runStore) where
 import Prelude
 import Control.Monad.Aff (Aff, later, runAff)
 import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Class (liftEff)
 import Control.Monad.Eff.Exception (EXCEPTION, throwException)
 import Data.Foldable (foldl)
 import Signal (Signal, (~>), foldp, runSignal)
@@ -62,9 +61,8 @@ runStore update initialState = do
       -- Run effects and send the resulting actions to the actionChannel
       runEffect :: Aff (StoreEffects eff) (Array action) ->
                    Eff (StoreEffects eff) Unit
-      runEffect effect = void $ runAff throwException (const (pure unit)) do
-        actions <- later effect
-        liftEff $ send actionChannel actions
+      runEffect effect = void $ runAff throwException success $ later effect
+        where success = send actionChannel
 
   -- Pipe the effectSignal to runEffect
   runSignal $ effectSignal ~> runEffect
