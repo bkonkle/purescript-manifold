@@ -7,8 +7,8 @@
     "build:babel": "babel src -s -d lib",
     "build:json": "pulp build --include lib:test --no-psa --json-errors",
     "postinstall": "bower install",
-    "test": "standard src && pulp test tap | tap-spec --color",
-    "dev": "pscid --test --port 1701"
+    "test": "standard src && pulp test",
+    "dev": "pscid --test"
   },
   "repository": {
     "type": "git",
