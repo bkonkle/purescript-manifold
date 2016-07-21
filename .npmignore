@@ -25,9 +25,24 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+bower_components
 
 # Local environment variables
 .env
 
 # Yeoman state file
 .yo-rc.json
+
+# Build outut
+.pulp-cache
+output
+build
+
+# Purescript REPL
+/.psci*
+
+# Purescript Webpack config
+/src/.webpack.js
+
+# Transpiled babel code
+lib
