@@ -38,8 +38,11 @@ bower_components
 output
 build
 
-# Purescript REPL
+# PureScript REPL
 /.psci*
+
+# PureScript IDE
+/.psc-ide*
 
 # Purescript Webpack config
 /src/.webpack.js
