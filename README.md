@@ -1,4 +1,6 @@
-# Manifold
+# [ABANDONED] Manifold
+
+*NOTE: This project has been abandoned. [Pux](https://github.com/alexmingoia/purescript-pux) does a better job of this style of FRP-driven state and couples it with a great React interface. For my own purposes, I've decided to go back to Redux and interact with it using PureScript. The ecosystem around Redux is too rich to abandon right now.*
 
 An FRP-like state management library built on [Signal][signal] and [Aff][aff]. Inspired by [Elm][elm], [Pux][pux], [RxState][rx-state], and [Redux][redux].
 
